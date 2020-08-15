@@ -139,7 +139,7 @@ def create_app(test_config=None):
     # Check that at least there is one parameter to be updated
     if name is None \
       and description is None \
-      and movie_category_ids is None \
+      and movie_category_id is None \
       and actors_id is None:
         abort(400)
 

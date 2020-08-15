@@ -1,0 +1,357 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.3
+-- Dumped by pg_dump version 12.3
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: Actor; Type: TABLE; Schema: public; Owner: falkhotaifi
+--
+
+CREATE TABLE public."Actor" (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    age integer,
+    date_created timestamp without time zone NOT NULL,
+    date_updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public."Actor" OWNER TO falkhotaifi;
+
+--
+-- Name: Actor_id_seq; Type: SEQUENCE; Schema: public; Owner: falkhotaifi
+--
+
+CREATE SEQUENCE public."Actor_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Actor_id_seq" OWNER TO falkhotaifi;
+
+--
+-- Name: Actor_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: falkhotaifi
+--
+
+ALTER SEQUENCE public."Actor_id_seq" OWNED BY public."Actor".id;
+
+
+--
+-- Name: Movie; Type: TABLE; Schema: public; Owner: falkhotaifi
+--
+
+CREATE TABLE public."Movie" (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    description character varying,
+    movie_category_id integer,
+    date_created timestamp without time zone NOT NULL,
+    date_updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public."Movie" OWNER TO falkhotaifi;
+
+--
+-- Name: Movie_Actor_Assign; Type: TABLE; Schema: public; Owner: falkhotaifi
+--
+
+CREATE TABLE public."Movie_Actor_Assign" (
+    id integer NOT NULL,
+    movie_id integer,
+    actor_id integer,
+    date_created timestamp without time zone NOT NULL,
+    date_updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public."Movie_Actor_Assign" OWNER TO falkhotaifi;
+
+--
+-- Name: Movie_Actor_Assign_id_seq; Type: SEQUENCE; Schema: public; Owner: falkhotaifi
+--
+
+CREATE SEQUENCE public."Movie_Actor_Assign_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Movie_Actor_Assign_id_seq" OWNER TO falkhotaifi;
+
+--
+-- Name: Movie_Actor_Assign_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: falkhotaifi
+--
+
+ALTER SEQUENCE public."Movie_Actor_Assign_id_seq" OWNED BY public."Movie_Actor_Assign".id;
+
+
+--
+-- Name: Movie_Category; Type: TABLE; Schema: public; Owner: falkhotaifi
+--
+
+CREATE TABLE public."Movie_Category" (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    date_created timestamp without time zone NOT NULL,
+    date_updated timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public."Movie_Category" OWNER TO falkhotaifi;
+
+--
+-- Name: Movie_Category_id_seq; Type: SEQUENCE; Schema: public; Owner: falkhotaifi
+--
+
+CREATE SEQUENCE public."Movie_Category_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Movie_Category_id_seq" OWNER TO falkhotaifi;
+
+--
+-- Name: Movie_Category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: falkhotaifi
+--
+
+ALTER SEQUENCE public."Movie_Category_id_seq" OWNED BY public."Movie_Category".id;
+
+
+--
+-- Name: Movie_id_seq; Type: SEQUENCE; Schema: public; Owner: falkhotaifi
+--
+
+CREATE SEQUENCE public."Movie_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Movie_id_seq" OWNER TO falkhotaifi;
+
+--
+-- Name: Movie_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: falkhotaifi
+--
+
+ALTER SEQUENCE public."Movie_id_seq" OWNED BY public."Movie".id;
+
+
+--
+-- Name: alembic_version; Type: TABLE; Schema: public; Owner: falkhotaifi
+--
+
+CREATE TABLE public.alembic_version (
+    version_num character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.alembic_version OWNER TO falkhotaifi;
+
+--
+-- Name: Actor id; Type: DEFAULT; Schema: public; Owner: falkhotaifi
+--
+
+ALTER TABLE ONLY public."Actor" ALTER COLUMN id SET DEFAULT nextval('public."Actor_id_seq"'::regclass);
+
+
+--
+-- Name: Movie id; Type: DEFAULT; Schema: public; Owner: falkhotaifi
+--
+
+ALTER TABLE ONLY public."Movie" ALTER COLUMN id SET DEFAULT nextval('public."Movie_id_seq"'::regclass);
+
+
+--
+-- Name: Movie_Actor_Assign id; Type: DEFAULT; Schema: public; Owner: falkhotaifi
+--
+
+ALTER TABLE ONLY public."Movie_Actor_Assign" ALTER COLUMN id SET DEFAULT nextval('public."Movie_Actor_Assign_id_seq"'::regclass);
+
+
+--
+-- Name: Movie_Category id; Type: DEFAULT; Schema: public; Owner: falkhotaifi
+--
+
+ALTER TABLE ONLY public."Movie_Category" ALTER COLUMN id SET DEFAULT nextval('public."Movie_Category_id_seq"'::regclass);
+
+
+--
+-- Data for Name: Actor; Type: TABLE DATA; Schema: public; Owner: falkhotaifi
+--
+
+COPY public."Actor" (id, name, age, date_created, date_updated) FROM stdin;
+3	CHRIS EVANS	39	2020-08-05 17:47:55.33931	2020-08-05 17:47:55.339317
+1	JENNIFER LAWRENCE	30	2020-08-05 14:28:36.395938	2020-08-05 14:28:36.395946
+4	CHANNING TATUM	40	2020-08-05 17:49:58.664843	2020-08-05 17:49:58.66485
+5	GEORGE CLOONEY	59	2020-08-05 17:52:09.750867	2020-08-05 17:52:09.750874
+6	MARGOT ROBBIE	45	2020-08-05 17:52:32.35255	2020-08-05 17:52:32.35256
+\.
+
+
+--
+-- Data for Name: Movie; Type: TABLE DATA; Schema: public; Owner: falkhotaifi
+--
+
+COPY public."Movie" (id, name, description, movie_category_id, date_created, date_updated) FROM stdin;
+4	Her Smell	Elisabeth Moss gets her riot-grrrl on in Her Smell, delivering a tour-de-force performance of rampant egomania and self-destruction that galvanizes Alex Ross Perry’s film. A mid-‘90s Courtney Love type who resides in the center of a tornado of her own making, Moss’ Becky Something leaves only chaos in her wake, much to the chagrin of her bandmates (Agyness Deyn and Gayle Rankin), ex (Dan Stevens), young daughter (Daisy Pugh-Weiss), mother (Virginia Madsen), collaborators/rivals (including Amber Heard and Cara Delevingne) and heroically loyal manager (Eric Stoltz). Split into five chapters that are interlaced with flashback home videos of happier early times, Perry’s tale traces Becky’s journey from apocalyptic drugged-out collapse to cautious resurrection, his handheld camera exactingly attuned to his protagonist’s scattershot headspace. There’s a vicarious thrill to watching this rocker spiral into the abyss, and then pull herself back out. While Moss doesn’t hold back in depicting Becky’s ugliness, she taps into the underlying hurt and vulnerability fueling her firestorm heart, peaking with a heart-rending single-take piano rendition of Bryan Adams’ “Heaven.”	7	2020-08-11 12:38:08.591173	2020-08-11 12:38:08.591184
+5	The Dead Don’t Die	Jim Jarmusch crafts an undeadpan comedy of apocalyptic proportions with The Dead Don’t Die, a Night of the Living Dead riff played for bleak satire. In the “nice” town of Centerville, chief Cliff (Bill Murray) and officer Ronnie (Adam Driver) are forced to contend with a zombie outbreak caused by…well, maybe it’s the polar fracking that’s knocked the Earth off its axis, or the MAGA-type insanity peddled by local farmer Frank (Steve Buscemi), or simply good ol’ fashioned American materialism. “This isn’t going to end well,” warns Ronnie at regular intervals, which he knows because he’s read Jarmusch’s script – just one of many instances in which the film indulges in goofy self-referentiality. A stellar cast that also includes Chloë Sevigny, Larry Fessenden, Danny Glover, Selena Gomez and Tom Waits (looking like a reject from Cats) go through their end-of-the-world motions with laid-back confusion and panic (they’re barely animated themselves). Meanwhile, Jarmusch stages scenes of gruesomeness with a shrug-ish good humor that belies this simmering-with-anger critique of a world going, perhaps deservedly, to hell.	8	2020-08-11 13:04:30.665232	2020-08-11 13:04:30.66524
+6	Fast Color	“If something’s broken, it stays broken,” intones Bo (Lorraine Toussaint) at the outset of Fast Color, which then proceeds to show that things – and people – can be mended through the power of family, love and connection to the past. Director Julia Hart’s sophomore feature (co-written with Jordan Horowitz) is an unconventional superhero saga about Ruth (Gugu Mbatha-Raw), who in a near future decimated by lack of rain, flees government agent Bill (Christopher Denham) while trying to control her extraordinary abilities, which manifest themselves as seismic seizures. Ruth’s flight takes her to her childhood home and her mom Bo (Lorraine Toussaint) and daughter Lila (Saniyya Sidney), both of whom have the capacity to wield swirly-colored constructive/deconstructive energy. The volatility of youth and the vitality of kinship (with present and former relatives) serve as sturdy thematic undercurrents for this low-key genre tale. Far more subdued than its summer-blockbuster brethren, it’s a showcase for Hart’s vibrant visuals and Mbatha-Raw’s heartfelt performance as a woman finding strength not from independence but, instead, from bonds of blood.	11	2020-08-11 13:05:34.41675	2020-08-11 13:05:34.416757
+\.
+
+
+--
+-- Data for Name: Movie_Actor_Assign; Type: TABLE DATA; Schema: public; Owner: falkhotaifi
+--
+
+COPY public."Movie_Actor_Assign" (id, movie_id, actor_id, date_created, date_updated) FROM stdin;
+12	4	5	2020-08-11 12:38:08.605696	2020-08-11 12:38:08.605705
+13	4	6	2020-08-11 12:38:08.614975	2020-08-11 12:38:08.61498
+17	6	1	2020-08-11 13:05:34.422584	2020-08-11 13:05:34.42259
+18	6	4	2020-08-11 13:05:34.429153	2020-08-11 13:05:34.42916
+19	6	6	2020-08-11 13:05:34.433707	2020-08-11 13:05:34.433713
+27	5	3	2020-08-11 20:05:59.782962	2020-08-11 20:05:59.78297
+28	5	4	2020-08-11 20:05:59.787578	2020-08-11 20:05:59.787583
+\.
+
+
+--
+-- Data for Name: Movie_Category; Type: TABLE DATA; Schema: public; Owner: falkhotaifi
+--
+
+COPY public."Movie_Category" (id, name, date_created, date_updated) FROM stdin;
+8	Action	2020-08-11 09:44:00.305034	2020-08-11 09:44:00.305042
+11	Drama	2020-08-11 09:52:41.334805	2020-08-11 09:52:41.334818
+7	Horror	2020-08-10 20:20:28.658031	2020-08-10 20:20:28.658038
+12	Romance	2020-08-11 11:25:06.224807	2020-08-11 11:25:06.224816
+13	Sport	2020-08-11 13:58:29.431493	2020-08-11 13:58:29.431502
+\.
+
+
+--
+-- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: falkhotaifi
+--
+
+COPY public.alembic_version (version_num) FROM stdin;
+\.
+
+
+--
+-- Name: Actor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: falkhotaifi
+--
+
+SELECT pg_catalog.setval('public."Actor_id_seq"', 8, true);
+
+
+--
+-- Name: Movie_Actor_Assign_id_seq; Type: SEQUENCE SET; Schema: public; Owner: falkhotaifi
+--
+
+SELECT pg_catalog.setval('public."Movie_Actor_Assign_id_seq"', 36, true);
+
+
+--
+-- Name: Movie_Category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: falkhotaifi
+--
+
+SELECT pg_catalog.setval('public."Movie_Category_id_seq"', 14, true);
+
+
+--
+-- Name: Movie_id_seq; Type: SEQUENCE SET; Schema: public; Owner: falkhotaifi
+--
+
+SELECT pg_catalog.setval('public."Movie_id_seq"', 9, true);
+
+
+--
+-- Name: Actor Actor_pkey; Type: CONSTRAINT; Schema: public; Owner: falkhotaifi
+--
+
+ALTER TABLE ONLY public."Actor"
+    ADD CONSTRAINT "Actor_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Movie_Actor_Assign Movie_Actor_Assign_pkey; Type: CONSTRAINT; Schema: public; Owner: falkhotaifi
+--
+
+ALTER TABLE ONLY public."Movie_Actor_Assign"
+    ADD CONSTRAINT "Movie_Actor_Assign_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Movie_Category Movie_Category_pkey; Type: CONSTRAINT; Schema: public; Owner: falkhotaifi
+--
+
+ALTER TABLE ONLY public."Movie_Category"
+    ADD CONSTRAINT "Movie_Category_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Movie Movie_pkey; Type: CONSTRAINT; Schema: public; Owner: falkhotaifi
+--
+
+ALTER TABLE ONLY public."Movie"
+    ADD CONSTRAINT "Movie_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: falkhotaifi
+--
+
+ALTER TABLE ONLY public.alembic_version
+    ADD CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num);
+
+
+--
+-- Name: Movie_Actor_Assign Movie_Actor_Assign_actor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: falkhotaifi
+--
+
+ALTER TABLE ONLY public."Movie_Actor_Assign"
+    ADD CONSTRAINT "Movie_Actor_Assign_actor_id_fkey" FOREIGN KEY (actor_id) REFERENCES public."Actor"(id) ON DELETE CASCADE;
+
+
+--
+-- Name: Movie_Actor_Assign Movie_Actor_Assign_movie_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: falkhotaifi
+--
+
+ALTER TABLE ONLY public."Movie_Actor_Assign"
+    ADD CONSTRAINT "Movie_Actor_Assign_movie_id_fkey" FOREIGN KEY (movie_id) REFERENCES public."Movie"(id) ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
