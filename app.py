@@ -20,7 +20,7 @@ def create_app(test_config=None):
                           'Content-Type,Authorization,true')
     response.headers.add('Access-Control-Allow-Methods',
                           'GET,PATCH,POST,DELETE,OPTIONS')
-    return response
+    return response 
 
   @app.route('/')
   def hello():
