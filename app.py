@@ -90,7 +90,7 @@ def create_app(test_config=None):
 
       # getting category details
       category = MovieCategory.query.filter_by(id=movie_category_id).one_or_none()
-      if category is None:
+      if category is not None:
         movie_formatted['category'] = category
       else:
         movie_formatted['category'] = {}
@@ -158,7 +158,7 @@ def create_app(test_config=None):
 
       # getting category details
       category = MovieCategory.query.filter_by(id=movie_category_id).one_or_none()
-      if category is None:
+      if category is not None:
         movie_formatted['category'] = category
       else:
         movie_formatted['category'] = {}
