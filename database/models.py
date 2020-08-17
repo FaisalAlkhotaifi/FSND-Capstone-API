@@ -1,6 +1,11 @@
 import os
 from datetime import datetime
-from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, create_engine
+from sqlalchemy import Column
+from sqlalchemy import String
+from sqlalchemy import Integer
+from sqlalchemy import DateTime
+from sqlalchemy import ForeignKey
+from sqlalchemy import create_engine
 from flask_sqlalchemy import SQLAlchemy
 import json
 
@@ -12,6 +17,7 @@ database_path = os.environ['DATABASE_URL']
 
 db = SQLAlchemy()
 
+
 def setup_db(app, database_path=database_path):
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -21,9 +27,18 @@ def setup_db(app, database_path=database_path):
 
 actors_assign_to_movie = db.Table(
     'actors_assign_to_movie',
-    db.Column('movie_id', db.Integer, db.ForeignKey('Movie.id'), primary_key=True),
-    db.Column('actor_id', db.Integer, db.ForeignKey('Actor.id'), primary_key=True),
+    db.Column(
+        'movie_id',
+        db.Integer,
+        db.ForeignKey('Movie.id'),
+        primary_key=True),
+    db.Column(
+        'actor_id',
+        db.Integer,
+        db.ForeignKey('Actor.id'),
+        primary_key=True),
 )
+
 
 class Movie(db.Model):
     __tablename__ = 'Movie'
@@ -34,7 +49,10 @@ class Movie(db.Model):
     movie_category_id = Column(Integer)
     date_created = Column(DateTime, nullable=False, default=datetime.utcnow)
     date_updated = Column(DateTime, nullable=False, default=datetime.utcnow)
-    actors = db.relationship('Actor', secondary=actors_assign_to_movie, backref=db.backref('movies', lazy=True))
+    actors = db.relationship(
+        'Actor',
+        secondary=actors_assign_to_movie,
+        backref=db.backref('movies', lazy=True))
 
     def __init__(self, name, description, movie_category_id, actors):
         self.name = name
@@ -71,6 +89,7 @@ class Movie(db.Model):
     def update(self):
         db.session.commit()
 
+
 class Actor(db.Model):
     __tablename__ = 'Actor'
 
@@ -102,6 +121,7 @@ class Actor(db.Model):
     def update(self):
         db.session.commit()
 
+
 class MovieCategory(db.Model):
     __tablename__ = 'Movie_Category'
 
@@ -129,6 +149,7 @@ class MovieCategory(db.Model):
 
     def update(self):
         db.session.commit()
+
 
 class MovieActorAssign(db.Model):
     __tablename__ = 'Movie_Actor_Assign'

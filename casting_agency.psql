@@ -169,6 +169,18 @@ ALTER SEQUENCE public."Movie_id_seq" OWNED BY public."Movie".id;
 
 
 --
+-- Name: actors_assign_to_movie; Type: TABLE; Schema: public; Owner: falkhotaifi
+--
+
+CREATE TABLE public.actors_assign_to_movie (
+    movie_id integer NOT NULL,
+    actor_id integer NOT NULL
+);
+
+
+ALTER TABLE public.actors_assign_to_movie OWNER TO falkhotaifi;
+
+--
 -- Name: alembic_version; Type: TABLE; Schema: public; Owner: falkhotaifi
 --
 
@@ -260,6 +272,21 @@ COPY public."Movie_Category" (id, name, date_created, date_updated) FROM stdin;
 
 
 --
+-- Data for Name: actors_assign_to_movie; Type: TABLE DATA; Schema: public; Owner: falkhotaifi
+--
+
+COPY public.actors_assign_to_movie (movie_id, actor_id) FROM stdin;
+4	5
+4	6
+6	1
+6	4
+6	6
+5	3
+5	4
+\.
+
+
+--
 -- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: falkhotaifi
 --
 
@@ -328,6 +355,14 @@ ALTER TABLE ONLY public."Movie"
 
 
 --
+-- Name: actors_assign_to_movie actors_assign_to_movie_pkey; Type: CONSTRAINT; Schema: public; Owner: falkhotaifi
+--
+
+ALTER TABLE ONLY public.actors_assign_to_movie
+    ADD CONSTRAINT actors_assign_to_movie_pkey PRIMARY KEY (movie_id, actor_id);
+
+
+--
 -- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: falkhotaifi
 --
 
@@ -349,6 +384,22 @@ ALTER TABLE ONLY public."Movie_Actor_Assign"
 
 ALTER TABLE ONLY public."Movie_Actor_Assign"
     ADD CONSTRAINT "Movie_Actor_Assign_movie_id_fkey" FOREIGN KEY (movie_id) REFERENCES public."Movie"(id) ON DELETE CASCADE;
+
+
+--
+-- Name: actors_assign_to_movie actors_assign_to_movie_actor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: falkhotaifi
+--
+
+ALTER TABLE ONLY public.actors_assign_to_movie
+    ADD CONSTRAINT actors_assign_to_movie_actor_id_fkey FOREIGN KEY (actor_id) REFERENCES public."Actor"(id);
+
+
+--
+-- Name: actors_assign_to_movie actors_assign_to_movie_movie_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: falkhotaifi
+--
+
+ALTER TABLE ONLY public.actors_assign_to_movie
+    ADD CONSTRAINT actors_assign_to_movie_movie_id_fkey FOREIGN KEY (movie_id) REFERENCES public."Movie"(id);
 
 
 --
