@@ -19,6 +19,12 @@ def setup_db(app, database_path=database_path):
     db.init_app(app)
     db.create_all()
 
+actors_assign_to_movie = db.Table(
+    'actors_assign_to_movie',
+    db.Column('movie_id', db.Integer, db.ForeignKey('Movie.id'), primary_key=True),
+    db.Column('actor_id', db.Integer, db.ForeignKey('Actor.id'), primary_key=True),
+)
+
 class Movie(db.Model):
     __tablename__ = 'Movie'
 
@@ -28,17 +34,30 @@ class Movie(db.Model):
     movie_category_id = Column(Integer)
     date_created = Column(DateTime, nullable=False, default=datetime.utcnow)
     date_updated = Column(DateTime, nullable=False, default=datetime.utcnow)
+    actors = db.relationship('Actor', secondary=actors_assign_to_movie, backref=db.backref('movies', lazy=True))
 
-    def __init__(self, name, description, movie_category_id):
+    def __init__(self, name, description, movie_category_id, actors):
         self.name = name
         self.description = description
         self.movie_category_id = movie_category_id
+        self.actors = actors
 
-    def format(self):
+    def format_short(self):
         return {
             'id': self.id,
             'name': self.name,
-            'description': self.description
+            'description': self.description,
+            'actors': [actor.format() for actor in self.actors]
+        }
+    
+    def format_long(self):
+        return {
+            'details': {
+                'id': self.id,
+                'name': self.name,
+                'description': self.description
+            },
+            'actors': [actor.format() for actor in self.actors]
         }
     
     def insert(self):

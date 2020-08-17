@@ -120,7 +120,7 @@ Errors are returned as JSON objects in the following format:
     "message": "resource not found"
 }
 ```
-The API will return six error types when requests fail:
+The API will return five error types when requests fail:
 - 400: Bad Request
 - 401: Unathurize User 
 - 403: Insufficient Permission

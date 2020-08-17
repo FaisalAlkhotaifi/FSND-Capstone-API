@@ -36,26 +36,14 @@ def create_app(test_config=None):
 
     if movies is not None and len(movies) != 0:
       for movie in movies:
+        single_movie = movie.format_long()
+
         category = MovieCategory.query.filter_by(id=movie.movie_category_id).one_or_none()
-        category_formatted = {}
-
         if category is not None:
-          category_formatted = category.format()
-
-        single_movie = {
-          'details': movie.format(),
-          'category': category_formatted
-        }
-        movie_actors_assign = MovieActorAssign.query.filter_by(movie_id=movie.id).all()
-
-        if movie_actors_assign is not None and len(movie_actors_assign) != 0:
-          actors_id = [movie_actor_assign.actor_id for movie_actor_assign in movie_actors_assign]
-
-          actors = Actor.query.filter(Actor.id.in_(actors_id)).order_by(Actor.date_updated).all()
-          single_movie['actors'] = [actor.format() for actor in actors]
+          single_movie['category'] = category.format()
         else:
-          single_movie['actors'] = []
-        
+          single_movie['category'] = {}
+
         movies_formatted.append(single_movie)
 
     return jsonify({
@@ -74,45 +62,37 @@ def create_app(test_config=None):
       name = body.get('name', None)
       desc = body.get('description', None)
       movie_category_id = body.get('movie_category_id', None)
+      actors_id = body.get('actors_id', None)
 
       # Check of any missing parameter.
-      if name is None or desc is None or movie_category_id is None:
+      if name is None \
+         or desc is None \
+         or movie_category_id is None \
+         or actors_id is None:
         abort(400)
+
+      actors = []
+      if actors_id is not None \
+         and type(actors_id) is list:
+        actors = Actor.query.filter(Actor.id.in_(actors_id)).all()
 
       movie = Movie(
         name=name, 
         description=desc, 
-        movie_category_id=movie_category_id
+        movie_category_id=movie_category_id,
+        actors=actors
       )
+
       movie.insert()
 
-      movie_formatted['details'] = movie.format()
+      movie_formatted = movie.format_long()
 
       # getting category details
       category = MovieCategory.query.filter_by(id=movie_category_id).one_or_none()
       if category is not None:
-        movie_formatted['category'] = category
+        movie_formatted['category'] = category.format()
       else:
         movie_formatted['category'] = {}
-
-      # it is a list of actors id that is assigned to the added movie
-      actors_id = body.get('actors_id', None)
-
-      if actors_id is not None and type(actors_id) is list:
-        actors = []
-
-        # adding each actor to MovieActorAssign table
-        for actor_id in actors_id:
-          movie_actor_assign = MovieActorAssign(
-            movie_id=movie.id, 
-            actor_id=actor_id
-          )
-          movie_actor_assign.insert()
-          actors.append(movie_actor_assign.format())
-        
-        movie_formatted['actors'] = actors
-      else: 
-        movie_formatted['actors'] = []
 
       return jsonify({
         'success': True,
@@ -151,42 +131,27 @@ def create_app(test_config=None):
         movie.description = description
       if movie_category_id is not None:
         movie.movie_category_id = movie_category_id
+      if actors_id is not None \
+         and type(actors_id) is list:
+         actors = Actor.query.filter(Actor.id.in_(actors_id)).all()
+         movie.actors = actors
 
       movie.update()
 
-      movie_formatted['details'] = movie.format()
+      movie_formatted = movie.format_long()
 
       # getting category details
-      category = MovieCategory.query.filter_by(id=movie_category_id).one_or_none()
+      category = MovieCategory.query.filter_by(id=movie.movie_category_id).one_or_none()
       if category is not None:
-        movie_formatted['category'] = category
+        movie_formatted['category'] = category.format()
       else:
         movie_formatted['category'] = {}
-
-      if actors_id is not None \
-         and type(actors_id) is list:
-            MovieActorAssign.query.filter_by(
-              movie_id=movie.id
-            ).delete()
-
-            # delete the previous record of actors that assigned to 
-            # the update movie and then added the new ones
-            for actor_id in actors_id:
-              movie_actor_assign = MovieActorAssign(
-                movie_id=movie.id, 
-                actor_id=actor_id
-              )
-              movie_actor_assign.insert()
-
-            actors = Actor.query.filter(Actor.id.in_(actors_id)).order_by(Actor.date_updated).all()
-            movie_formatted['actors'] = [actor.format() for actor in actors]
 
       return jsonify({
         'success': True,
         'movie': movie_formatted
       })
     except Exception as e:
-      print(sys.exc_info())
       abort(422)
 
   @app.route('/movie/<movie_id>', methods=['DELETE'])
@@ -201,14 +166,6 @@ def create_app(test_config=None):
 
     try:
       movie.delete()
-      
-      # deleting actors that assign to movie along with deleting the movie record
-      movie_actors_assign = MovieActorAssign.query.filter_by(
-        movie_id=movie_id
-      ).all()
-      if movie_actors_assign is not None:
-        for actor_assign in movie_actors_assign:
-          actor_assign.delete()
 
       return jsonify({
           "success": True,
@@ -430,4 +387,4 @@ def create_app(test_config=None):
 APP = create_app()
 
 if __name__ == '__main__':
-    APP.run()
+    APP.run(debug=True)
