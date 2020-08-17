@@ -4,21 +4,21 @@
 The Casting Agnecy Project is a system that user can create movies, create actors and assgin them to movies, and craate movies categories. each user has a role that he/she can only perform certain action based on his/her permission.
 
 Roles:
-    - Casting Assistant:
-        - View movies, actors, and categories
-    - Casting Director:
-        - Same as Casting Assistant permission
-        - Add, modify, and delete actors
-        - Modify movies
-    - Executive Producer:
-        - Same as Casting Director permissions
-        - Add, delete movies
+- Casting Assistant:
+    - View movies, actors, and categories
+- Casting Director:
+    - Same as Casting Assistant permission
+    - Add, modify, and delete actors
+    - Modify movies
+- Executive Producer:
+    - Same as Casting Director permissions
+    - Add, delete movies
 
 The motivation of this project is to practice the skills learned during the Udacity FullStack NanoDegree program including
-    - Create, Read, Update, Delete (CRUD) from database ([PostgresSQL](https://www.postgresql.org)) using [SQLAlchemy ORM](https://flask-sqlalchemy.palletsprojects.com/en/2.x/).
-    - RESTful - API Using [Flask](https://flask.palletsprojects.com/en/1.1.x/)
-    - Authentication (Login, Permission, Roles) Using [Auth0](https://auth0.com/)
-    - Deploying the project using [Heroku](https://www.heroku.com)
+- Create, Read, Update, Delete (CRUD) from database ([PostgresSQL](https://www.postgresql.org)) using [SQLAlchemy ORM](https://flask-sqlalchemy.palletsprojects.com/en/2.x/).
+- RESTful - API Using [Flask](https://flask.palletsprojects.com/en/1.1.x/)
+- Authentication (Login, Permission, Roles) Using [Auth0](https://auth0.com/)
+- Deploying the project using [Heroku](https://www.heroku.com)
 
 ## Getting Started
 
